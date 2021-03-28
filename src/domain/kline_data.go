@@ -14,17 +14,18 @@ type KlineData struct {
 	Volume                   float64
 	CloseTime                time.Time
 	QuoteAssetVolume         float64
-	TradersNumber            int
+	TradersNumber            float64
 	TakerBuyBaseAssetVolume  float64
 	TakerBuyQuoteAssetVolume float64
 	Ignore                   float64
 }
 
-func (k *KlineData) ParseTimeStamp(utime string) (string, error) {
+func (k KlineData) ParseTimeStamp(utime string) (time.Time, error) {
 	i, err := strconv.ParseInt(utime, 10, 64)
 	if err != nil {
-		return "", err
+		return time.Time{}, err
 	}
 	t := time.Unix(i, 0)
-	return t.Format(time.UnixDate), nil
+	//t.Format(time.RFC3339)
+	return t, nil
 }
