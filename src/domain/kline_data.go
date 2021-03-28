@@ -1,6 +1,9 @@
 package domain
 
-import "time"
+import (
+	"strconv"
+	"time"
+)
 
 type KlineData struct {
 	OpenTime                 time.Time
@@ -15,4 +18,13 @@ type KlineData struct {
 	TakerBuyBaseAssetVolume  float64
 	TakerBuyQuoteAssetVolume float64
 	Ignore                   float64
+}
+
+func (k *KlineData) ParseTimeStamp(utime string) (string, error) {
+	i, err := strconv.ParseInt(utime, 10, 64)
+	if err != nil {
+		return "", err
+	}
+	t := time.Unix(i, 0)
+	return t.Format(time.UnixDate), nil
 }
